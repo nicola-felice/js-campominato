@@ -57,7 +57,7 @@ document.getElementById("select_difficulty").addEventListener('change', function
 
     // print board and set bombs
     printBoard(numberOfCells);
-    generateBombPositions(16, numberOfCells, bombsPositionList);
+    generateBombPositions(16, numberOfCells);
 
     // hide diff selection and show board
     document.querySelector(".choose_difficulty").classList.add("hide");
