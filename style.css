@@ -5,17 +5,30 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.container {
+    display: flex;
+    height: 100vh;
+}
+
 .cell {
     background-color: green;
     border: 2px black solid;
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    cursor: pointer;
+    color: white;
+    font-weight: 600;
 }
 
 #board {
     display: none;
     flex-wrap: wrap;
-    max-width: 1000px;
+    max-width: 500px;
     margin: auto;
 }
 #board.show {
@@ -26,11 +39,10 @@
 
 .choose_difficulty {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    height: 100vh;
     font-size: 1.5rem;
+    margin: auto;
+    text-align: center;
 }
 .choose_difficulty.hide {
     display: none;

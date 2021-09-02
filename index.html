@@ -8,18 +8,24 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="choose_difficulty">
-        <label for="select_difficulty">Scegli la Difficoltà</label>
-        <select name="difficulty" id="select_difficulty">
-            <option selected value="">- seleziona un'opzione -</option>
-            <option value="easy">facile</option>
-            <option value="medium">medio</option>
-            <option value="hard">difficile</option>
-        </select>
+    <div class="container">
+
+        <div class="choose_difficulty">
+            <label for="select_difficulty">Scegli la Difficoltà</label>
+            <select name="difficulty" id="select_difficulty">
+                <option selected value="">- seleziona un'opzione -</option>
+                <option value="easy">facile</option>
+                <option value="medium">medio</option>
+                <option value="hard">difficile</option>
+            </select>
+        </div>
+
+        <div id="board"></div>
+
     </div>
 
-    <div id="board"></div>
 
+    
     <script src="./app.js"></script>
 </body>
 </html>
