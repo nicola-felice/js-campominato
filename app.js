@@ -18,7 +18,7 @@ function getRandoNumber(min, max) {
 }
   
 
-function generateBombPositions(numOfBombs, numCells) {
+function generateBombPositions(numOfBombs, numCells, firstClickedCell) {
 
     bombsPositionList = [];
 
@@ -26,7 +26,7 @@ function generateBombPositions(numOfBombs, numCells) {
 
         let num = getRandoNumber(1, numCells);
 
-        if ( !bombsPositionList.includes(num) ) {
+        if ( !bombsPositionList.includes(num) && num !== firstClickedCell ) {
             bombsPositionList.push(num);
         }
     }
@@ -184,7 +184,7 @@ document.getElementById("select_difficulty").addEventListener('change', function
 
     // print board and set bombs
     printBoard(numberOfCells);
-    generateBombPositions(16, numberOfCells);
+    // generateBombPositions(16, numberOfCells);
 
     // hide diff selection and show board
     document.querySelector(".choose_difficulty").classList.add("hide");
@@ -202,6 +202,7 @@ board.addEventListener('click',
             event.target.style.backgroundColor = "red";
             alert(`YOU DIED! il tuo punteggio è: ${scoreCount.length}`);
             scoreCount = [];
+            bombsPositionList = [];
             document.getElementById("select_difficulty").value = "";
 
             // hide board and show diff selection again
@@ -218,6 +219,12 @@ board.addEventListener('click',
         event.target.style.backgroundColor = "blue";
         // then increase score
         scoreCount.push(parseInt(event.target.getAttribute("data-value"))); 
+
+        // after first click generate bombs positions
+        if ( scoreCount.length == 1 ) {
+            generateBombPositions(16, numberOfCells, parseInt(event.target.getAttribute("data-value")));
+        }
+
         // print num of adjacent bombs
         event.target.innerHTML = countAdjacentBombs(event.target);
 
@@ -230,6 +237,7 @@ board.addEventListener('click',
         if ( scoreCount.length == (numberOfCells - 16) ) {
             alert('complimenti hai vinto!!!');
             scoreCount = [];
+            bombsPositionList = [];
             document.getElementById("select_difficulty").value = "";
 
             // hide board and show diff selection again
