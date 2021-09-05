@@ -78,6 +78,7 @@ function revealSafeField(cell) {
         inLastColumn = true;
     } 
 
+    let flag = `<i style="color: orange;" class="fas fa-flag"></i>`;
 
     // reveal all adjacent cells if the cell has 0 adjacent bombs
     if ( countAdjacentBombs(cell) == 0 ) {
@@ -87,19 +88,19 @@ function revealSafeField(cell) {
             // check if you are in the last col
             if ( inLastColumn == false ) {
 
-                let elmSuccColumn = document.querySelector(`[data-value="${i + 1}"]`);
+                let elmNextColumn = document.querySelector(`[data-value="${i + 1}"]`);
 
-                if ( elmSuccColumn != null ) {
-                    elmSuccColumn.style.backgroundColor = "blue";
+                if ( elmNextColumn != null ) {
+                    elmNextColumn.style.backgroundColor = "blue";
 
                     // if cleared cell is not been counted before, increase score
-                    if ( !scoreCount.includes(parseInt(elmSuccColumn.getAttribute("data-value"))) ) {
-                        scoreCount.push(parseInt(elmSuccColumn.getAttribute("data-value"))); 
+                    if ( !scoreCount.includes(parseInt(elmNextColumn.getAttribute("data-value"))) ) {
+                        scoreCount.push(parseInt(elmNextColumn.getAttribute("data-value"))); 
                     }
 
-                    // change innerhtml only for cells not changed before
-                    if ( elmSuccColumn.innerHTML === " " ) {
-                        elmSuccColumn.innerHTML = countAdjacentBombs(elmSuccColumn);                    
+                    // change innerhtml only for cells not changed before or that contains a flag
+                    if ( elmNextColumn.innerHTML === " " || elmNextColumn.innerHTML == flag) {
+                        elmNextColumn.innerHTML = countAdjacentBombs(elmNextColumn);                    
                     }
                 }
             }
@@ -117,8 +118,8 @@ function revealSafeField(cell) {
                         scoreCount.push(parseInt(elmPrevColumn.getAttribute("data-value"))); 
                     } 
 
-                    // change innerhtml only for cells not changed before
-                    if ( elmPrevColumn.innerHTML === " " ) {
+                    // change innerhtml only for cells not changed before or that contains a flag
+                    if ( elmPrevColumn.innerHTML === " " || elmPrevColumn.innerHTML == flag ) {
                         elmPrevColumn.innerHTML = countAdjacentBombs(elmPrevColumn);  
                     }                  
                 }
@@ -135,8 +136,8 @@ function revealSafeField(cell) {
                     scoreCount.push(parseInt(elm.getAttribute("data-value"))); 
                 }
 
-                // change innerhtml only for cells not changed before
-                if ( elm.innerHTML === " " ) {
+                // change innerhtml only for cells not changed before or that contains a flag
+                if ( elm.innerHTML === " " || elm.innerHTML == flag ) {
                     elm.innerHTML = countAdjacentBombs(elm);                
                 }
             }
@@ -184,7 +185,6 @@ document.getElementById("select_difficulty").addEventListener('change', function
 
     // print board and set bombs
     printBoard(numberOfCells);
-    // generateBombPositions(16, numberOfCells);
 
     // hide diff selection and show board
     document.querySelector(".choose_difficulty").classList.add("hide");
@@ -198,6 +198,7 @@ let scoreCount = [];
 board.addEventListener('click', 
     function(event) {
 
+        // if you lose
         if ( bombsPositionList.includes(parseInt(event.target.getAttribute("data-value"))) ) {
             event.target.style.backgroundColor = "red";
             alert(`YOU DIED! il tuo punteggio è: ${scoreCount.length}`);
@@ -233,7 +234,7 @@ board.addEventListener('click',
         revealSafeField(event.target);
 
 
-        // alert if you win the game
+        // if you win 
         if ( scoreCount.length == (numberOfCells - 16) ) {
             alert('complimenti hai vinto!!!');
             scoreCount = [];
@@ -248,3 +249,21 @@ board.addEventListener('click',
     }
 );
 
+
+// add flag on right mouse click
+// remove it if you click again
+document.getElementById("board").addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+
+    let flag = `<i style="color: orange;" class="fas fa-flag"></i>`; 
+
+    if (event.target.innerHTML == " ") {
+        event.target.innerHTML = flag;    
+
+    } else if (event.target.outerHTML == flag) {
+        event.target.outerHTML = " ";
+
+    } else if (event.target.innerHTML == flag) {
+        event.target.innerHTML = " ";
+    }
+}); 
