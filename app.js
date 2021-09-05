@@ -46,7 +46,7 @@ function countAdjacentBombs(cell) {
 
     } else if ( cell.getAttribute("data-value")[1] == 0 ) {
         inLastColumn = true;
-    } 
+    }
 
     for ( let i = parseInt(cell.getAttribute("data-value")) - 10; i <= parseInt(cell.getAttribute("data-value")) + 10; i += 10 ) {
 
@@ -76,7 +76,8 @@ function revealSafeField(cell) {
 
     } else if ( cell.getAttribute("data-value")[1] == 0 ) {
         inLastColumn = true;
-    } 
+    }
+
 
     let flag = `<i style="color: orange;" class="fas fa-flag"></i>`;
 
@@ -213,6 +214,11 @@ board.addEventListener('click',
         }
 
         if ( scoreCount.includes(parseInt(event.target.getAttribute("data-value"))) ) {
+            return;
+        }
+
+        // check if you have clicked on a flag
+        if ( event.target.getAttribute("data-value") == null ) {
             return;
         }
 
