@@ -80,6 +80,7 @@ function revealSafeField(cell) {
 
 
     let flag = `<i style="color: orange;" class="fas fa-flag"></i>`;
+    let questionMark = `<i style="color: orange;" class="fas fa-question"></i>`;
 
     // reveal all adjacent cells if the cell has 0 adjacent bombs
     if ( countAdjacentBombs(cell) == 0 ) {
@@ -99,8 +100,8 @@ function revealSafeField(cell) {
                         scoreCount.push(parseInt(elmNextColumn.getAttribute("data-value"))); 
                     }
 
-                    // change innerhtml only for cells not changed before or that contains a flag
-                    if ( elmNextColumn.innerHTML === " " || elmNextColumn.innerHTML == flag) {
+                    // change innerhtml only for cells not changed before or that contains a flag / question mark
+                    if ( elmNextColumn.innerHTML === " " || elmNextColumn.innerHTML == flag || elmNextColumn.innerHTML == questionMark ) {
                         elmNextColumn.innerHTML = countAdjacentBombs(elmNextColumn);                    
                     }
                 }
@@ -114,13 +115,11 @@ function revealSafeField(cell) {
                 if ( elmPrevColumn != null ) {
                     elmPrevColumn.style.backgroundColor = "blue";
 
-                    // if cleared cell is not been counted before, increase score
                     if ( !scoreCount.includes(parseInt(elmPrevColumn.getAttribute("data-value"))) ) {
                         scoreCount.push(parseInt(elmPrevColumn.getAttribute("data-value"))); 
                     } 
 
-                    // change innerhtml only for cells not changed before or that contains a flag
-                    if ( elmPrevColumn.innerHTML === " " || elmPrevColumn.innerHTML == flag ) {
+                    if ( elmPrevColumn.innerHTML === " " || elmPrevColumn.innerHTML == flag || elmPrevColumn.innerHTML == questionMark ) {
                         elmPrevColumn.innerHTML = countAdjacentBombs(elmPrevColumn);  
                     }                  
                 }
@@ -132,13 +131,11 @@ function revealSafeField(cell) {
             if ( elm != null ) {
                 elm.style.backgroundColor = "blue";
 
-                // if cleared cell is not been counted before, increase score
                 if ( !scoreCount.includes(parseInt(elm.getAttribute("data-value"))) ) {
                     scoreCount.push(parseInt(elm.getAttribute("data-value"))); 
                 }
 
-                // change innerhtml only for cells not changed before or that contains a flag
-                if ( elm.innerHTML === " " || elm.innerHTML == flag ) {
+                if ( elm.innerHTML === " " || elm.innerHTML == flag || elm.innerHTML == questionMark ) {
                     elm.innerHTML = countAdjacentBombs(elm);                
                 }
             }
@@ -257,19 +254,27 @@ board.addEventListener('click',
 
 
 // add flag on right mouse click
+// change to question mark on second right click
 // remove it if you click again
 document.getElementById("board").addEventListener('contextmenu', function(event) {
     event.preventDefault();
 
     let flag = `<i style="color: orange;" class="fas fa-flag"></i>`; 
+    let questionMark = `<i style="color: orange;" class="fas fa-question"></i>`;
 
-    if (event.target.innerHTML == " ") {
+    if ( event.target.innerHTML == " " ) {
         event.target.innerHTML = flag;    
 
-    } else if (event.target.outerHTML == flag) {
-        event.target.outerHTML = " ";
+    } else if ( event.target.outerHTML == flag ) {
+        event.target.outerHTML = questionMark;
 
-    } else if (event.target.innerHTML == flag) {
+    } else if ( event.target.innerHTML == flag ) {
+        event.target.innerHTML = questionMark;
+
+    } else if ( event.target.innerHTML == questionMark ) {
         event.target.innerHTML = " ";
+
+    } else if ( event.target.outerHTML == questionMark ) {
+        event.target.outerHTML = " ";
     }
 }); 
