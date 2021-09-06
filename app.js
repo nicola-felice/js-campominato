@@ -156,6 +156,24 @@ function revealSafeField(cell) {
             revealSafeField(element);
         }
     }
+
+    // update the number of flags
+    document.getElementById("num_flags").innerHTML = `${flag} : ${countFlags()}`;
+}
+
+// count number of flags
+function countFlags() {
+
+    let numFlags = 0;
+    let flag = `<i style="color: orange;" class="fas fa-flag"></i>`;
+
+    for (let i = 1; i <= numberOfCells; i++) {
+        if ( document.querySelector(`[data-value="${i}"]`).innerHTML == flag ) {
+            numFlags++;
+        }
+    } 
+
+    return numFlags;
 }
 
 
@@ -187,6 +205,7 @@ document.getElementById("select_difficulty").addEventListener('change', function
     // hide diff selection and show board
     document.querySelector(".choose_difficulty").classList.add("hide");
     document.querySelector("#board").classList.add("show");
+    document.getElementById("num_flags").style.display = "inline-block";
 });
 
 
@@ -207,6 +226,7 @@ board.addEventListener('click',
             // hide board and show diff selection again
             document.querySelector(".choose_difficulty").classList.remove("hide");
             document.querySelector("#board").classList.remove("show");
+            document.getElementById("num_flags").style.display = "none";
             return;
         }
 
@@ -247,6 +267,7 @@ board.addEventListener('click',
             // hide board and show diff selection again
             document.querySelector(".choose_difficulty").classList.remove("hide");
             document.querySelector("#board").classList.remove("show");
+            document.getElementById("num_flags").style.display = "none";    
             return;
         }
     }
@@ -254,7 +275,7 @@ board.addEventListener('click',
 
 
 // add flag on right mouse click
-// change to question mark on second right click
+// change question mark on second right click
 // remove it if you click again
 document.getElementById("board").addEventListener('contextmenu', function(event) {
     event.preventDefault();
@@ -277,4 +298,7 @@ document.getElementById("board").addEventListener('contextmenu', function(event)
     } else if ( event.target.outerHTML == questionMark ) {
         event.target.outerHTML = " ";
     }
+
+    // update the number of flags
+    document.getElementById("num_flags").innerHTML = `${flag} : ${countFlags()}`;
 }); 

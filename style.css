@@ -35,7 +35,12 @@
     display: flex;
 }
 
-
+#num_flags {
+    display: none;
+    position: absolute;
+    margin: 1.5rem;
+    font-size: 1.25rem;
+}
 
 .choose_difficulty {
     display: flex;
